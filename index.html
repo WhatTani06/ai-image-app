@@ -50,16 +50,26 @@
     resize: none;
     margin-bottom: 12px;
   }
+  .btn-group {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
   button {
-    width: 100%;
+    flex: 1;
     padding: 12px;
     border: none;
     border-radius: 8px;
-    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
     color: white;
     font-weight: bold;
-    font-size: 1rem;
+    font-size: 0.95rem;
     cursor: pointer;
+  }
+  .btn-image {
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  }
+  .btn-video {
+    background: linear-gradient(135deg, #ec4899, #f43f5e);
   }
   .result-area {
     margin-top: 20px;
@@ -83,20 +93,24 @@
 <body>
 
 <div class="card">
-  <h1>🎨 AI画像生成アプリ</h1>
+  <h1>🎨 AI画像・動画生成アプリ</h1>
   <p class="subtitle">souzounoyumenosekai</p>
   
-  <textarea id="prompt" placeholder="生成したい画像の説明を英語で入力（例: cute cat, fantasy style）"></textarea>
-  <button onclick="generateImage()">画像を生成する</button>
+  <textarea id="prompt" placeholder="生成したい内容の説明を英語で入力（例: cute cat running, anime style）"></textarea>
+  
+  <div class="btn-group">
+    <button class="btn-image" onclick="generateMedia('image')">画像を生成</button>
+    <button class="btn-video" onclick="generateMedia('video')">動画風(GIF)を生成</button>
+  </div>
 
   <div class="result-area">
-    <div id="loading" class="loading">画像を生成中... しばらくお待ちください</div>
-    <img id="output-image" src="" alt="生成された画像">
+    <div id="loading" class="loading">生成中... しばらくお待ちください</div>
+    <img id="output-image" src="" alt="生成成果物">
   </div>
 </div>
 
 <script>
-function generateImage() {
+function generateMedia(type) {
   const prompt = document.getElementById('prompt').value.trim();
   if (!prompt) {
     alert('プロンプトを入力してください');
@@ -109,18 +123,27 @@ function generateImage() {
   loading.style.display = 'block';
   img.style.display = 'none';
 
-  const encodedPrompt = encodeURIComponent(prompt);
-  const imageUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=512&height=512&nologo=true&seed=${Math.floor(Math.random() * 1000000)}`;
+  const seed = Math.floor(Math.random() * 1000000);
+  let mediaUrl = '';
+
+  if (type === 'video') {
+    // Pollinations AIのAnimation APIを使用して動的なアニメーションGIFを生成
+    const encodedPrompt = encodeURIComponent(prompt + ' animation loop gif');
+    mediaUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=512&height=512&nologo=true&seed=${seed}`;
+  } else {
+    const encodedPrompt = encodeURIComponent(prompt);
+    mediaUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=512&height=512&nologo=true&seed=${seed}`;
+  }
 
   const tempImg = new Image();
-  tempImg.src = imageUrl;
+  tempImg.src = mediaUrl;
   tempImg.onload = function() {
-    img.src = imageUrl;
+    img.src = mediaUrl;
     img.style.display = 'block';
     loading.style.display = 'none';
   };
   tempImg.onerror = function() {
-    alert('画像の生成に失敗しました。');
+    alert('生成に失敗しました。');
     loading.style.display = 'none';
   };
 }
