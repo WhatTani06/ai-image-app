@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>souzounoyumenosekai</title>
+<style>
+  body {
+    font-family: sans-serif;
+    background-color: #0f172a;
+    color: #f8fafc;
+    margin: 0;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .card {
+    background: #1e293b;
+    border-radius: 16px;
+    padding: 20px;
+    width: 100%;
+    max-width: 480px;
+    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3);
+    box-sizing: border-box;
+  }
+  h1 {
+    font-size: 1.4rem;
+    margin-top: 0;
+    margin-bottom: 8px;
+    text-align: center;
+    color: #38bdf8;
+  }
+  p.subtitle {
+    font-size: 0.85rem;
+    color: #94a3b8;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  textarea {
+    width: 100%;
+    height: 80px;
+    border-radius: 8px;
+    border: 1px solid #334155;
+    background: #0f172a;
+    color: #fff;
+    padding: 10px;
+    font-size: 0.95rem;
+    box-sizing: border-box;
+    resize: none;
+    margin-bottom: 12px;
+  }
+  button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    color: white;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  .result-area {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .result-area img {
+    width: 100%;
+    border-radius: 8px;
+    display: none;
+  }
+  .loading {
+    display: none;
+    color: #38bdf8;
+    font-size: 0.9rem;
+    margin-top: 10px;
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <h1>🎨 AI画像生成アプリ</h1>
+  <p class="subtitle">souzounoyumenosekai</p>
+  
+  <textarea id="prompt" placeholder="生成したい画像の説明を英語で入力（例: cute cat, fantasy style）"></textarea>
+  <button onclick="generateImage()">画像を生成する</button>
+
+  <div class="result-area">
+    <div id="loading" class="loading">画像を生成中... しばらくお待ちください</div>
+    <img id="output-image" src="" alt="生成された画像">
+  </div>
+</div>
+
+<script>
+function generateImage() {
+  const prompt = document.getElementById('prompt').value.trim();
+  if (!prompt) {
+    alert('プロンプトを入力してください');
+    return;
+  }
+
+  const loading = document.getElementById('loading');
+  const img = document.getElementById('output-image');
+
+  loading.style.display = 'block';
+  img.style.display = 'none';
+
+  const encodedPrompt = encodeURIComponent(prompt);
+  const imageUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=512&height=512&nologo=true&seed=${Math.floor(Math.random() * 1000000)}`;
+
+  const tempImg = new Image();
+  tempImg.src = imageUrl;
+  tempImg.onload = function() {
+    img.src = imageUrl;
+    img.style.display = 'block';
+    loading.style.display = 'none';
+  };
+  tempImg.onerror = function() {
+    alert('画像の生成に失敗しました。');
+    loading.style.display = 'none';
+  };
+}
+</script>
+
+</body>
+</html>
