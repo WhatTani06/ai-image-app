@@ -4,135 +4,370 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>souzounoyumenosekai</title>
+
+<!-- アプリアイコン (SVGファビコン) -->
+<link rel="icon" id="favicon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌲</text></svg>">
+
+<!-- PWA (アプリインストール) 設定 -->
+<link rel="manifest" href="data:application/manifest+json;base64,ewogICJuYW1lIjogInNvdXpvdW5veXVtZW5vc2VrYWkiLAogICJzaG9ydF9uYW1lIjogInNvdXpvdW5veXVtZW5vc2VrYWkiLAogICJzdGFydF91cmwiOiAiLi8iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiMwZjE3MmEiLAogICJ0aGVtZV9jb2xvciI6ICIjMGYxNzJhIiwKICAiaWNvbnMiOiBbCiAgICB7CiAgICAgICJzcmMiOiAiZGF0YTppbWFnZS9zdmcreG1sLDxzdmcgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJyB2aWV3Qm94PScwIDAgMTAwIDEwMCc+PHRleHQgeT0nLjllbScgZm9udC1zaXplPSc5MCc+🌲</text></svg>\",\nICAgICAgInNpemVzIjogIjUxMng1MTIiLAogICAgICAidHlwZSI6ICJpbWFnZS9zdmcreG1sIiwKICAgICAgInB1cnBvc2UiOiAiYW55IG1hc2thYmxlIgogICAgfQogIF0KfQ==">
+
 <style>
+  :root {
+    --bg-color: #0f172a;
+    --card-bg: #1e293b;
+    --text-color: #f8fafc;
+    --sub-text: #94a3b8;
+    --border-color: #334155;
+    --accent-color: #38bdf8;
+  }
+
+  body.light-mode {
+    --bg-color: #f1f5f9;
+    --card-bg: #ffffff;
+    --text-color: #0f172a;
+    --sub-text: #64748b;
+    --border-color: #cbd5e1;
+    --accent-color: #0284c7;
+  }
+
   body {
-    font-family: sans-serif;
-    background-color: #0f172a;
-    color: #f8fafc;
+    font-family: system-ui, -apple-system, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
     margin: 0;
     padding: 16px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    transition: background-color 0.3s, color 0.3s;
   }
+
   .card {
-    background: #1e293b;
-    border-radius: 16px;
+    background: var(--card-bg);
+    border-radius: 20px;
     padding: 20px;
     width: 100%;
     max-width: 480px;
-    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3);
+    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.2);
     box-sizing: border-box;
+    position: relative;
   }
-  h1 {
-    font-size: 1.4rem;
-    margin-top: 0;
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+
+  .icon-banner {
+    font-size: 1.2rem;
+    text-align: center;
+    line-height: 1.3;
     margin-bottom: 8px;
-    text-align: center;
-    color: #38bdf8;
   }
-  p.subtitle {
-    font-size: 0.85rem;
-    color: #94a3b8;
+
+  h1 {
+    font-size: 1.3rem;
+    margin: 0;
+    color: var(--accent-color);
     text-align: center;
-    margin-bottom: 20px;
   }
+
+  .menu-btn {
+    background: none;
+    border: none;
+    color: var(--text-color);
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 4px 8px;
+  }
+
+  .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 55px;
+    right: 20px;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    z-index: 100;
+    width: 160px;
+    overflow: hidden;
+  }
+
+  .dropdown-menu button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    background: none;
+    color: var(--text-color);
+    text-align: left;
+    font-size: 0.9rem;
+    cursor: pointer;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .dropdown-menu button:last-child {
+    border-bottom: none;
+  }
+
+  .dropdown-menu button:hover {
+    background: rgba(255,255,255,0.1);
+  }
+
   textarea {
     width: 100%;
     height: 80px;
-    border-radius: 8px;
-    border: 1px solid #334155;
-    background: #0f172a;
-    color: #fff;
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-color);
+    color: var(--text-color);
     padding: 10px;
     font-size: 0.95rem;
     box-sizing: border-box;
     resize: none;
     margin-bottom: 12px;
   }
-  .btn-group {
+
+  .size-inputs {
     display: flex;
-    gap: 8px;
+    gap: 12px;
     margin-bottom: 12px;
   }
-  button {
+
+  .size-inputs label {
+    font-size: 0.85rem;
+    color: var(--sub-text);
+    display: flex;
+    flex-direction: column;
     flex: 1;
-    padding: 12px;
-    border: none;
-    border-radius: 8px;
-    color: white;
-    font-weight: bold;
+  }
+
+  .size-inputs input {
+    margin-top: 4px;
+    padding: 6px;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-color);
+    color: var(--text-color);
+  }
+
+  .type-selection {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 16px;
+    justify-content: center;
+    background: var(--bg-color);
+    padding: 10px;
+    border-radius: 10px;
+  }
+
+  .type-selection label {
     font-size: 0.95rem;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
   }
-  .btn-image {
+
+  .submit-btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
     background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    color: white;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
   }
-  .btn-video {
-    background: linear-gradient(135deg, #ec4899, #f43f5e);
-  }
+
   .result-area {
     margin-top: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
   }
+
   .result-area img {
     width: 100%;
-    border-radius: 8px;
+    border-radius: 12px;
     display: none;
   }
+
   .loading {
     display: none;
-    color: #38bdf8;
+    color: var(--accent-color);
     font-size: 0.9rem;
     margin-top: 10px;
+  }
+
+  .history-modal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 200;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+
+  .history-content {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 20px;
+    max-width: 400px;
+    width: 100%;
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+
+  .history-item {
+    border-bottom: 1px solid var(--border-color);
+    padding: 8px 0;
+    font-size: 0.85rem;
   }
 </style>
 </head>
 <body>
 
 <div class="card">
-  <h1>🎨 AI画像・動画生成アプリ</h1>
-  <p class="subtitle">souzounoyumenosekai</p>
-  
-  <textarea id="prompt" placeholder="生成したい内容の説明を英語で入力（例: cute cat running, anime style）"></textarea>
-  
-  <div class="btn-group">
-    <button class="btn-image" onclick="generateMedia('image')">画像を生成</button>
-    <button class="btn-video" onclick="generateMedia('video')">動画風(GIF)を生成</button>
+  <div class="header">
+    <div style="flex: 1;"></div>
+    <div>
+      <div class="icon-banner">☁<br>🌲🏡🌲<br>🌱🌊🌱</div>
+      <h1>souzounoyumenosekai</h1>
+    </div>
+    <div style="flex: 1; text-align: right;">
+      <button class="menu-btn" onclick="toggleMenu()">⋮</button>
+    </div>
   </div>
 
+  <!-- ドロップダウンメニュー -->
+  <div id="dropdown" class="dropdown-menu">
+    <button onclick="printPage()">🖨️ 印刷</button>
+    <button onclick="showHistory()">📜 履歴を見る</button>
+    <button onclick="toggleTheme()">🌓 ダーク/ライト切替</button>
+  </div>
+
+  <textarea id="prompt" placeholder="生成したい内容を入力（日本語・英語どちらもOK）"></textarea>
+
+  <!-- 高さ・幅の選択 -->
+  <div class="size-inputs">
+    <label>幅 (Width)
+      <input type="number" id="width" value="512" step="64">
+    </label>
+    <label>高さ (Height)
+      <input type="number" id="height" value="512" step="64">
+    </label>
+  </div>
+
+  <!-- 高さや幅の下に〇ラジオボタンで選択 -->
+  <div class="type-selection">
+    <label>
+      <input type="radio" name="mediaType" value="image" checked> 〇 画像を作成
+    </label>
+    <label>
+      <input type="radio" name="mediaType" value="video"> 〇 動画(GIF)を作成
+    </label>
+  </div>
+
+  <button class="submit-btn" onclick="generate()">生成を開始する</button>
+
   <div class="result-area">
-    <div id="loading" class="loading">生成中... しばらくお待ちください</div>
-    <img id="output-image" src="" alt="生成成果物">
+    <div id="loading" class="loading">翻訳＆生成中... しばらくお待ちください</div>
+    <img id="output-image" src="" alt="生成されたメディア">
+  </div>
+</div>
+
+<!-- 履歴表示モーダル -->
+<div id="historyModal" class="history-modal" onclick="closeHistory()">
+  <div class="history-content" onclick="event.stopPropagation()">
+    <h3>生成履歴</h3>
+    <div id="historyList">履歴はありません</div>
+    <button onclick="closeHistory()" style="margin-top:10px; width:100%; padding:8px;">閉じる</button>
   </div>
 </div>
 
 <script>
-function generateMedia(type) {
-  const prompt = document.getElementById('prompt').value.trim();
-  if (!prompt) {
-    alert('プロンプトを入力してください');
+let history = [];
+
+function toggleMenu() {
+  const menu = document.getElementById('dropdown');
+  menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+}
+
+function toggleTheme() {
+  document.body.classList.toggle('light-mode');
+  toggleMenu();
+}
+
+function printPage() {
+  window.print();
+  toggleMenu();
+}
+
+function showHistory() {
+  const list = document.getElementById('historyList');
+  if (history.length === 0) {
+    list.innerHTML = '<p>履歴はまだありません。</p>';
+  } else {
+    list.innerHTML = history.map(h => `<div class="history-item"><b>[${h.type}]</b> ${h.prompt}</div>`).join('');
+  }
+  document.getElementById('historyModal').style.display = 'flex';
+  toggleMenu();
+}
+
+function closeHistory() {
+  document.getElementById('historyModal').style.display = 'none';
+}
+
+// 簡易翻訳 API (MyMemory API を利用して日本語から英語へ自動変換)
+async function translateToEnglish(text) {
+  // すべて半角英数字の場合はそのまま返却
+  if (/^[a-zA-Z0-9\s,.-]+$/.test(text)) return text;
+  
+  try {
+    const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=ja|en`);
+    const data = await res.json();
+    return data.responseData.translatedText || text;
+  } catch (e) {
+    return text;
+  }
+}
+
+async function generate() {
+  const rawPrompt = document.getElementById('prompt').value.trim();
+  if (!rawPrompt) {
+    alert('説明を入力してください');
     return;
   }
 
   const loading = document.getElementById('loading');
   const img = document.getElementById('output-image');
+  const width = document.getElementById('width').value || 512;
+  const height = document.getElementById('height').value || 512;
+  const mediaType = document.querySelector('input[name="mediaType"]:checked').value;
 
   loading.style.display = 'block';
   img.style.display = 'none';
 
+  // 1. 自動翻訳
+  const translatedPrompt = await translateToEnglish(rawPrompt);
+  
   const seed = Math.floor(Math.random() * 1000000);
   let mediaUrl = '';
 
-  if (type === 'video') {
-    // Pollinations AIのAnimation APIを使用して動的なアニメーションGIFを生成
-    const encodedPrompt = encodeURIComponent(prompt + ' animation loop gif');
-    mediaUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=512&height=512&nologo=true&seed=${seed}`;
+  if (mediaType === 'video') {
+    // 動画(GIF)風パラメータを追加
+    const finalPrompt = encodeURIComponent(translatedPrompt + ' animated motion gif video loop');
+    mediaUrl = `https://image.pollinations.ai/prompt/${finalPrompt}?width=${width}&height=${height}&nologo=true&seed=${seed}&model=flux`;
   } else {
-    const encodedPrompt = encodeURIComponent(prompt);
-    mediaUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=512&height=512&nologo=true&seed=${seed}`;
+    const finalPrompt = encodeURIComponent(translatedPrompt);
+    mediaUrl = `https://image.pollinations.ai/prompt/${finalPrompt}?width=${width}&height=${height}&nologo=true&seed=${seed}`;
   }
 
   const tempImg = new Image();
@@ -141,13 +376,17 @@ function generateMedia(type) {
     img.src = mediaUrl;
     img.style.display = 'block';
     loading.style.display = 'none';
+    
+    // 履歴に追加
+    history.unshift({ prompt: rawPrompt, type: mediaType === 'video' ? '動画' : '画像' });
   };
   tempImg.onerror = function() {
-    alert('生成に失敗しました。');
+    alert('生成に失敗しました。時間をおいてお試しください。');
     loading.style.display = 'none';
   };
 }
-</script>
 
-</body>
-</html>
+// PWA Service Worker 登録
+if ('serviceWorker' in navigator) {
+  const swCode = `self.addEventListener('fetch', function(e) {});`;
+  const blob = new Blob([swCode], {
