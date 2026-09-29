@@ -2,10 +2,10 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>想像の夢の世界</title>
 
-<!-- アイコン設定 -->
+<!-- アプリアイコン設定 -->
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%231e293b'/><text x='50' y='35' font-size='30' text-anchor='middle'>☁</text><text x='50' y='65' font-size='28' text-anchor='middle'>🌲🏡🌲</text><text x='50' y='90' font-size='22' text-anchor='middle'>🌱🌊🌱</text></svg>">
 <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%231e293b'/><text x='50' y='35' font-size='30' text-anchor='middle'>☁</text><text x='50' y='65' font-size='28' text-anchor='middle'>🌲🏡🌲</text><text x='50' y='90' font-size='22' text-anchor='middle'>🌱🌊🌱</text></svg>">
 
@@ -73,35 +73,36 @@
     margin: 0;
   }
 
-  /* ︙ メニューボタン */
+  /* ︙ ボタンの判定拡大・最前面配置 */
   .menu-btn {
     position: absolute;
-    top: -5px;
-    right: -5px;
-    width: 48px;
-    height: 48px;
+    top: -8px;
+    right: -8px;
+    width: 50px;
+    height: 50px;
     background: transparent;
     border: none;
     color: var(--text-color);
-    font-size: 1.8rem;
+    font-size: 2rem;
     cursor: pointer;
-    z-index: 99999;
+    z-index: 999999;
     display: flex;
     align-items: center;
     justify-content: center;
+    user-select: none;
     -webkit-tap-highlight-color: transparent;
   }
 
   .dropdown-menu {
     display: none;
     position: absolute;
-    top: 40px;
+    top: 42px;
     right: 0;
     background: var(--card-bg);
     border: 1px solid var(--border-color);
     border-radius: 10px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-    z-index: 100000;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+    z-index: 1000000;
     width: 160px;
     overflow: hidden;
   }
@@ -122,7 +123,7 @@
     border-bottom: none;
   }
 
-  /* Colab完全再現 フォーム */
+  /* 入力フォーム */
   .form-group {
     margin-bottom: 14px;
   }
@@ -164,7 +165,7 @@
     font-size: 0.95rem;
   }
 
-  /* 〇 ラジオボタン選択 */
+  /* 新機能：画像/動画切り替え */
   .radio-group {
     display: flex;
     gap: 16px;
@@ -183,6 +184,7 @@
     gap: 6px;
   }
 
+  /* 生成ボタン */
   .submit-btn {
     width: 100%;
     padding: 12px;
@@ -201,7 +203,7 @@
     opacity: 0.85;
   }
 
-  /* 結果表示エリア */
+  /* 結果表示 */
   .result-area {
     margin-top: 16px;
     text-align: center;
@@ -228,7 +230,7 @@
     position: fixed;
     top:0; left:0; right:0; bottom:0;
     background: rgba(0,0,0,0.7);
-    z-index: 200000;
+    z-index: 2000000;
     justify-content: center;
     align-items: center;
     padding: 16px;
@@ -304,16 +306,21 @@
 <script>
 let genHistory = [];
 
-// メニュー切り替え
+// 「⋮」メニュー切り替え
 function toggleMenu(e) {
-  if (e) e.stopPropagation();
+  if (e) {
+    e.stopPropagation();
+    e.preventDefault();
+  }
   const menu = document.getElementById('dropdownMenu');
   menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
 }
 
-document.addEventListener('click', () => {
+document.addEventListener('click', (e) => {
   const menu = document.getElementById('dropdownMenu');
-  if (menu) menu.style.display = 'none';
+  if (menu && !e.target.classList.contains('menu-btn')) {
+    menu.style.display = 'none';
+  }
 });
 
 function toggleTheme() {
@@ -342,19 +349,22 @@ function closeHistory() {
   document.getElementById('historyModal').style.display = 'none';
 }
 
-// 自動翻訳
+// 自動翻訳 (MyMemory API)
 async function autoTranslate(text) {
   if (/^[a-zA-Z0-9\s,.-]+$/.test(text)) return text;
   try {
     const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=ja|en`);
     const data = await res.json();
-    return data.responseData.translatedText || text;
+    if (data.responseData && data.responseData.translatedText) {
+      return data.responseData.translatedText;
+    }
+    return text;
   } catch (e) {
     return text;
   }
 }
 
-// 画像・動画生成処理
+// 画像・動画生成
 async function generateMedia() {
   const rawPrompt = document.getElementById('prompt').value.trim();
   if (!rawPrompt) {
@@ -374,12 +384,7 @@ async function generateMedia() {
   const enPrompt = await autoTranslate(rawPrompt);
   const seed = Math.floor(Math.random() * 10000000);
 
-  let primaryUrl = '';
-  let fallbackUrl = '';
-
+  let targetUrl = '';
   if (mediaType === 'video') {
-    const p = encodeURIComponent(enPrompt + ', animation loop gif motion');
-    primaryUrl = `https://image.pollinations.ai/prompt/${p}?width=${width}&height=${height}&seed=${seed}&nologo=true`;
-    fallbackUrl = `https://pollinations.ai/p/${p}?width=${width}&height=${height}&seed=${seed}`;
-  } else {
-    const p
+    const p = encodeURIComponent(enPrompt + ', animated gif motion');
+    targetUrl = `https://image.pollinations.ai/prompt/${p}?width=${width}&height
