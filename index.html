@@ -2,276 +2,274 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>souzounoyumenosekai</title>
 
-<!-- favicon / apple icon -->
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌲</text></svg>">
-<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌲</text></svg>">
+<!-- アプリアイコン＆Favicon -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%231e293b'/><text x='50' y='35' font-size='30' text-anchor='middle'>☁</text><text x='50' y='65' font-size='28' text-anchor='middle'>🌲🏡🌲</text><text x='50' y='90' font-size='22' text-anchor='middle'>🌱🌊🌱</text></svg>">
+<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%231e293b'/><text x='50' y='35' font-size='30' text-anchor='middle'>☁</text><text x='50' y='65' font-size='28' text-anchor='middle'>🌲🏡🌲</text><text x='50' y='90' font-size='22' text-anchor='middle'>🌱🌊🌱</text></svg>">
 
 <style>
   :root {
-    --bg-color: #0b0f19;
-    --card-bg: #151d2a;
-    --input-bg: #1e293b;
-    --text-color: #f1f5f9;
-    --sub-text: #94a3b8;
-    --border-color: #334155;
-    --accent-btn: linear-gradient(135deg, #6366f1, #8b5cf6);
+    --bg: #0b0f19;
+    --card: #151d2a;
+    --input: #1e293b;
+    --text: #f1f5f9;
+    --sub: #94a3b8;
+    --border: #334155;
+    --btn-grad: linear-gradient(135deg, #6366f1, #8b5cf6);
   }
 
   body.light-mode {
-    --bg-color: #f8fafc;
-    --card-bg: #ffffff;
-    --input-bg: #f1f5f9;
-    --text-color: #0f172a;
-    --sub-text: #64748b;
-    --border-color: #cbd5e1;
-    --accent-btn: linear-gradient(135deg, #4f46e5, #7c3aed);
+    --bg: #f8fafc;
+    --card: #ffffff;
+    --input: #f1f5f9;
+    --text: #0f172a;
+    --sub: #64748b;
+    --border: #cbd5e1;
+    --btn-grad: linear-gradient(135deg, #4f46e5, #7c3aed);
   }
 
+  * { box-sizing: border-box; }
+
   body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    background-color: var(--bg-color);
-    color: var(--text-color);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
     margin: 0;
     padding: 12px;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    transition: background-color 0.3s;
+    justify-content: center;
   }
 
-  .container {
-    background: var(--card-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 20px;
-    padding: 20px;
+  .app-container {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 18px;
     width: 100%;
-    max-width: 500px;
-    box-shadow: 0 15px 30px rgba(0,0,0,0.3);
-    box-sizing: border-box;
+    max-width: 480px;
     position: relative;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
   }
 
-  .header-area {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 16px;
-    position: relative;
-  }
-
-  .center-header {
+  /* ヘッダーエリア */
+  .header {
     text-align: center;
-    width: 100%;
+    position: relative;
+    margin-bottom: 16px;
+    padding-top: 4px;
   }
 
-  .icon-banner {
+  .banner-icon {
     font-size: 1.1rem;
-    line-height: 1.2;
+    line-height: 1.3;
     margin-bottom: 4px;
+    letter-spacing: 2px;
   }
 
-  .title {
-    font-size: 1.25rem;
+  .app-title {
+    font-size: 1.15rem;
     font-weight: bold;
     color: #818cf8;
     margin: 0;
   }
 
-  /* ︙ ボタンのタップ範囲を確実に確保 */
-  .menu-trigger {
+  /* 「⋮」メニューボタンの反応エリア拡張 */
+  .menu-btn {
     position: absolute;
-    right: -8px;
-    top: -8px;
-    width: 48px;
-    height: 48px;
-    background: none;
+    top: -5px;
+    right: -5px;
+    width: 44px;
+    height: 44px;
+    background: transparent;
     border: none;
-    color: var(--text-color);
+    color: var(--text);
     font-size: 1.8rem;
     cursor: pointer;
-    z-index: 99999;
+    z-index: 9999;
     display: flex;
     align-items: center;
     justify-content: center;
+    -webkit-tap-highlight-color: transparent;
   }
 
-  .dropdown-menu {
+  .menu-dropdown {
     display: none;
     position: absolute;
-    top: 45px;
+    top: 40px;
     right: 0;
-    background: var(--card-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-    z-index: 100000;
-    width: 170px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    z-index: 10000;
+    width: 160px;
     overflow: hidden;
   }
 
-  .dropdown-menu button {
+  .menu-dropdown button {
     width: 100%;
-    padding: 14px;
+    padding: 12px 16px;
     border: none;
-    background: none;
-    color: var(--text-color);
+    background: transparent;
+    color: var(--text);
     text-align: left;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     cursor: pointer;
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border);
   }
 
-  .dropdown-menu button:last-child {
+  .menu-dropdown button:last-child {
     border-bottom: none;
   }
 
-  .form-group {
-    margin-bottom: 16px;
+  /* 入力フォーム (Colab/Gradioスタイル) */
+  .field-group {
+    margin-bottom: 14px;
   }
 
-  label.field-label {
+  .field-label {
     display: block;
     font-size: 0.85rem;
     font-weight: 600;
-    color: var(--sub-text);
+    color: var(--sub);
     margin-bottom: 6px;
   }
 
   textarea {
     width: 100%;
     height: 90px;
-    border-radius: 12px;
-    border: 1px solid var(--border-color);
-    background: var(--input-bg);
-    color: var(--text-color);
-    padding: 12px;
-    font-size: 1rem;
-    box-sizing: border-box;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--input);
+    color: var(--text);
+    padding: 10px;
+    font-size: 0.95rem;
     resize: vertical;
   }
 
-  .size-row {
+  .size-flex {
     display: flex;
-    gap: 12px;
+    gap: 10px;
   }
 
-  .size-row > div {
-    flex: 1;
-  }
+  .size-flex > div { flex: 1; }
 
   input[type="number"] {
     width: 100%;
-    padding: 10px;
-    border-radius: 10px;
-    border: 1px solid var(--border-color);
-    background: var(--input-bg);
-    color: var(--text-color);
-    box-sizing: border-box;
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--input);
+    color: var(--text);
+    font-size: 0.95rem;
   }
 
-  /* 〇 ラジオボタン選択 */
-  .radio-group {
+  /* 新機能：ラジオボタン選択 */
+  .radio-container {
     display: flex;
-    gap: 20px;
-    background: var(--input-bg);
-    padding: 12px;
-    border-radius: 12px;
-    border: 1px solid var(--border-color);
+    gap: 16px;
+    background: var(--input);
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
     justify-content: center;
   }
 
-  .radio-group label {
-    font-size: 0.95rem;
+  .radio-container label {
+    font-size: 0.9rem;
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
   }
 
-  .submit-btn {
+  /* Colab風生成ボタン */
+  .btn-submit {
     width: 100%;
-    padding: 14px;
+    padding: 12px;
     border: none;
-    border-radius: 12px;
-    background: var(--accent-btn);
-    color: white;
-    font-size: 1.05rem;
+    border-radius: 10px;
+    background: var(--btn-grad);
+    color: #ffffff;
+    font-size: 1rem;
     font-weight: bold;
     cursor: pointer;
-    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
-    margin-top: 8px;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);
+    margin-top: 6px;
   }
 
-  .result-area {
-    margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  .btn-submit:active {
+    opacity: 0.85;
   }
 
-  .result-area img {
+  /* 生成結果 */
+  .output-area {
+    margin-top: 16px;
+    text-align: center;
+  }
+
+  .output-area img {
     width: 100%;
-    border-radius: 12px;
+    border-radius: 10px;
     display: none;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    margin-top: 10px;
+    border: 1px solid var(--border);
   }
 
-  .loading {
+  .loading-status {
     display: none;
     color: #818cf8;
-    font-size: 0.95rem;
-    margin: 15px 0;
+    font-size: 0.9rem;
+    padding: 12px;
   }
 
-  .modal-overlay {
+  /* 履歴ダイアログ */
+  .modal {
     display: none;
     position: fixed;
     top:0; left:0; right:0; bottom:0;
     background: rgba(0,0,0,0.7);
-    z-index: 200000;
+    z-index: 20000;
     justify-content: center;
     align-items: center;
-    padding: 20px;
+    padding: 16px;
   }
 
-  .modal-box {
-    background: var(--card-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 16px;
-    padding: 20px;
+  .modal-inner {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px;
     width: 100%;
-    max-width: 400px;
-    max-height: 70vh;
+    max-width: 380px;
+    max-height: 75vh;
     overflow-y: auto;
   }
 </style>
 </head>
 <body>
 
-<div class="container">
-  <div class="header-area">
-    <div class="center-header">
-      <div class="icon-banner">☁<br>🌲🏡🌲<br>🌱🌊🌱</div>
-      <div class="title">souzounoyumenosekai</div>
-    </div>
-    <button class="menu-trigger" onclick="toggleMenu(event)" aria-label="メニュー">⋮</button>
+<div class="app-container">
+  <div class="header">
+    <div class="banner-icon">☁<br>🌲🏡🌲<br>🌱🌊🌱</div>
+    <div class="app-title">souzounoyumenosekai</div>
+    <button class="menu-btn" onclick="toggleMenu(event)" aria-label="メニュー">⋮</button>
     
-    <div id="dropdownMenu" class="dropdown-menu">
+    <div id="dropdownMenu" class="menu-dropdown">
       <button onclick="doPrint()">🖨️ 印刷</button>
-      <button onclick="openHistory()">📜 生成履歴</button>
+      <button onclick="showHistory()">📜 生成履歴</button>
       <button onclick="toggleTheme()">🌓 ダーク/ライト</button>
     </div>
   </div>
 
-  <div class="form-group">
-    <label class="field-label">プロンプト (日本語・他言語OK / 自動英語翻訳)</label>
-    <textarea id="prompt" placeholder="例: 綺麗な森の中で遊ぶ子猫、アニメ風"></textarea>
+  <div class="field-group">
+    <label class="field-label">プロンプト (日本語・英語どちらも可 / 自動翻訳)</label>
+    <textarea id="prompt" placeholder="例: 神秘的な森の中に建つ小さな家、美しいアニメ調"></textarea>
   </div>
 
-  <div class="form-group size-row">
+  <div class="field-group size-flex">
     <div>
       <label class="field-label">幅 (Width)</label>
       <input type="number" id="width" value="512" step="64">
@@ -282,88 +280,41 @@
     </div>
   </div>
 
-  <div class="form-group">
-    <label class="field-label">生成タイプ</label>
-    <div class="radio-group">
+  <div class="field-group">
+    <label class="field-label">生成モード</label>
+    <div class="radio-container">
       <label><input type="radio" name="mediaType" value="image" checked> 〇 画像を作成</label>
       <label><input type="radio" name="mediaType" value="video"> 〇 動画(GIF)を作成</label>
     </div>
   </div>
 
-  <button class="submit-btn" onclick="generateMedia()">生成を開始する</button>
+  <button class="btn-submit" onclick="startGeneration()">生成を開始する</button>
 
-  <div class="result-area">
-    <div id="loading" class="loading">⏳ 翻訳＆AI生成中... しばらくお待ちください</div>
-    <img id="output-image" src="" alt="生成成果物">
+  <div class="output-area">
+    <div id="loading" class="loading-status">⏳ 翻訳およびAI生成を行っています...</div>
+    <img id="resultImage" src="" alt="生成画像">
   </div>
 </div>
 
-<div id="historyModal" class="modal-overlay" onclick="closeHistory()">
-  <div class="modal-box" onclick="event.stopPropagation()">
+<div id="historyModal" class="modal" onclick="closeHistory()">
+  <div class="modal-inner" onclick="event.stopPropagation()">
     <h3 style="margin-top:0;">📜 生成履歴</h3>
-    <div id="historyList">履歴はありません</div>
-    <button onclick="closeHistory()" style="margin-top:15px; width:100%; padding:10px; border-radius:8px; border:none; background:#334155; color:white;">閉じる</button>
+    <div id="historyContent">履歴はありません</div>
+    <button onclick="closeHistory()" style="margin-top:14px; width:100%; padding:8px; border-radius:6px; border:none; background:var(--border); color:var(--text);">閉じる</button>
   </div>
 </div>
 
 <script>
-let genHistory = [];
+let genLogs = [];
 
-// 1. 動的にPWA用Web Manifestを自動生成して追加（アプリインストール対応）
-(function setupPWA() {
-  const canvas = document.createElement('canvas');
-  canvas.width = 512;
-  canvas.height = 512;
-  const ctx = canvas.getContext('2d');
-  ctx.fillStyle = '#1e1b4b';
-  ctx.fillRect(0, 0, 512, 512);
-  ctx.font = '320px sans-serif';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.fillText('🌲', 256, 280);
-  const iconDataUrl = canvas.toDataURL('image/png');
-
-  const manifestObj = {
-    name: "souzounoyumenosekai",
-    short_name: "souzounoyumenosekai",
-    start_url: "./",
-    display: "standalone",
-    background_color: "#0b0f19",
-    theme_color: "#6366f1",
-    icons: [
-      { src: iconDataUrl, sizes: "512x512", type: "image/png", purpose: "any maskable" },
-      { src: iconDataUrl, sizes: "192x192", type: "image/png", purpose: "any maskable" }
-    ]
-  };
-
-  const stringManifest = JSON.stringify(manifestObj);
-  const blob = new Blob([stringManifest], {type: 'application/json'});
-  const manifestUrl = URL.createObjectURL(blob);
-  
-  const link = document.createElement('link');
-  link.rel = 'manifest';
-  link.href = manifestUrl;
-  document.head.appendChild(link);
-
-  if ('serviceWorker' in navigator) {
-    const swCode = `
-      self.addEventListener('install', e => self.skipWaiting());
-      self.addEventListener('activate', e => self.clients.claim());
-      self.addEventListener('fetch', e => e.respondWith(fetch(e.request)));
-    `;
-    const swBlob = new Blob([swCode], {type: 'text/javascript'});
-    navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(()=>{});
-  }
-})();
-
-// メニュー操作
+// メニューの開閉
 function toggleMenu(e) {
   if (e) e.stopPropagation();
   const menu = document.getElementById('dropdownMenu');
   menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
 }
 
-document.addEventListener('click', (e) => {
+document.addEventListener('click', () => {
   const menu = document.getElementById('dropdownMenu');
   if (menu) menu.style.display = 'none';
 });
@@ -376,14 +327,14 @@ function doPrint() {
   window.print();
 }
 
-function openHistory() {
-  const list = document.getElementById('historyList');
-  if (genHistory.length === 0) {
-    list.innerHTML = '<p style="color:var(--sub-text);">履歴はまだありません。</p>';
+function showHistory() {
+  const container = document.getElementById('historyContent');
+  if (genLogs.length === 0) {
+    container.innerHTML = '<p style="color:var(--sub);">履歴はまだありません。</p>';
   } else {
-    list.innerHTML = genHistory.map(item => `
-      <div style="border-bottom:1px solid var(--border-color); padding:8px 0; font-size:0.85rem;">
-        <span style="color:#818cf8;">[${item.type}]</span> ${item.prompt}
+    container.innerHTML = genLogs.map(item => `
+      <div style="border-bottom:1px solid var(--border); padding:8px 0; font-size:0.85rem;">
+        <span style="color:#818cf8;">[${item.type}]</span> ${item.text}
       </div>
     `).join('');
   }
@@ -394,6 +345,42 @@ function closeHistory() {
   document.getElementById('historyModal').style.display = 'none';
 }
 
-// 自動翻訳 (MyMemory)
-async function autoTranslate(text) {
-  if (/^[a-zA-Z0-9\s,.-]+$/.test(text)) return te
+// 翻訳処理
+async function translatePrompt(text) {
+  if (/^[a-zA-Z0-9\s,.-]+$/.test(text)) return text;
+  try {
+    const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=ja|en`);
+    const data = await res.json();
+    return data.responseData.translatedText || text;
+  } catch (err) {
+    return text;
+  }
+}
+
+// 生成メインロジック
+async function startGeneration() {
+  const promptInput = document.getElementById('prompt').value.trim();
+  if (!promptInput) {
+    alert('プロンプト（説明文）を入力してください');
+    return;
+  }
+
+  const loading = document.getElementById('loading');
+  const img = document.getElementById('resultImage');
+  const w = document.getElementById('width').value || 512;
+  const h = document.getElementById('height').value || 512;
+  const type = document.querySelector('input[name="mediaType"]:checked').value;
+
+  loading.style.display = 'block';
+  img.style.display = 'none';
+
+  const translatedText = await translatePrompt(promptInput);
+  const seed = Math.floor(Math.random() * 9999999);
+
+  let targetUrl = '';
+  if (type === 'video') {
+    const query = encodeURIComponent(translatedText + ', motion animation gif');
+    targetUrl = `https://image.pollinations.ai/prompt/${query}?width=${w}&height=${h}&seed=${seed}&nologo=true`;
+  } else {
+    const query = encodeURIComponent(translatedText);
+    targetUrl = `https://image.pollinations.ai/prompt/${query}?width=${w}&height=${h}&seed=
