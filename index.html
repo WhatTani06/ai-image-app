@@ -2,32 +2,37 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>想像の夢の世界</title>
 
-<!-- アプリアイコン設定 -->
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%231e293b'/><text x='50' y='35' font-size='30' text-anchor='middle'>☁</text><text x='50' y='65' font-size='28' text-anchor='middle'>🌲🏡🌲</text><text x='50' y='90' font-size='22' text-anchor='middle'>🌱🌊🌱</text></svg>">
-<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%231e293b'/><text x='50' y='35' font-size='30' text-anchor='middle'>☁</text><text x='50' y='65' font-size='28' text-anchor='middle'>🌲🏡🌲</text><text x='50' y='90' font-size='22' text-anchor='middle'>🌱🌊🌱</text></svg>">
+<!-- Favicon (緑色の丸角アイコン) -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%2310b981'/><text x='50' y='35' font-size='30' text-anchor='middle'>☁</text><text x='50' y='65' font-size='28' text-anchor='middle'>🌲🏡🌲</text><text x='50' y='90' font-size='22' text-anchor='middle'>🌱🌊🌱</text></svg>">
 
 <style>
   :root {
-    --bg-color: #0b0f19;
-    --card-bg: #151d2a;
-    --input-bg: #1e293b;
-    --text-color: #f1f5f9;
-    --sub-text: #94a3b8;
-    --border-color: #334155;
-    --accent-btn: linear-gradient(135deg, #6366f1, #8b5cf6);
+    --bg-color: #d1eae3;         /* 写真と同じ薄緑色の背景 */
+    --header-bg: #0e9f6e;       /* 写真と同じエメラルドグリーン */
+    --card-bg: #c1e2d9;         /* フォーム背景 */
+    --text-color: #111827;
+    --sub-text: #374151;
+    --input-bg: #e2f1ec;
+    --border-color: #a3d3c5;
+    --btn-bg: #e5e7eb;
+    --btn-border: #d1d5db;
+    --btn-text: #1f2937;
   }
 
-  body.light-mode {
-    --bg-color: #f8fafc;
-    --card-bg: #ffffff;
-    --input-bg: #f1f5f9;
-    --text-color: #0f172a;
-    --sub-text: #64748b;
-    --border-color: #cbd5e1;
-    --accent-btn: linear-gradient(135deg, #4f46e5, #7c3aed);
+  body.dark-mode {
+    --bg-color: #0e1117;
+    --header-bg: #059669;
+    --card-bg: #1e2129;
+    --text-color: #fafafa;
+    --sub-text: #9ca3af;
+    --input-bg: #262730;
+    --border-color: #31333f;
+    --btn-bg: #262730;
+    --btn-border: #4b5563;
+    --btn-text: #ffffff;
   }
 
   * { box-sizing: border-box; }
@@ -37,173 +42,209 @@
     background-color: var(--bg-color);
     color: var(--text-color);
     margin: 0;
-    padding: 12px;
+    padding: 16px 12px;
     display: flex;
     justify-content: center;
   }
 
-  .container {
-    background: var(--card-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 16px;
-    padding: 20px;
+  .main-container {
     width: 100%;
     max-width: 480px;
     position: relative;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
   }
 
-  /* ヘッダー */
-  .header {
-    text-align: center;
-    position: relative;
-    margin-bottom: 16px;
-  }
-
-  .icon-banner {
-    font-size: 1.1rem;
-    line-height: 1.3;
-    margin-bottom: 4px;
-  }
-
-  .title {
-    font-size: 1.25rem;
-    font-weight: bold;
-    color: #818cf8;
-    margin: 0;
-  }
-
-  /* ︙ ボタンの判定拡大・最前面配置 */
-  .menu-btn {
+  /* --- Streamlit風 右上 ⋮ メニュー --- */
+  .st-menu-btn {
     position: absolute;
-    top: -8px;
-    right: -8px;
-    width: 50px;
-    height: 50px;
+    top: 8px;
+    right: 8px;
+    width: 40px;
+    height: 40px;
     background: transparent;
     border: none;
-    color: var(--text-color);
-    font-size: 2rem;
+    font-size: 1.6rem;
+    color: #4b5563;
     cursor: pointer;
-    z-index: 999999;
+    z-index: 99999;
     display: flex;
     align-items: center;
     justify-content: center;
-    user-select: none;
     -webkit-tap-highlight-color: transparent;
   }
 
-  .dropdown-menu {
+  .st-dropdown {
     display: none;
     position: absolute;
-    top: 42px;
-    right: 0;
-    background: var(--card-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 10px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.5);
-    z-index: 1000000;
-    width: 160px;
-    overflow: hidden;
+    top: 48px;
+    right: 8px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    z-index: 100000;
+    width: 230px;
+    padding: 12px;
+    color: #1f2937;
   }
 
-  .dropdown-menu button {
-    width: 100%;
-    padding: 12px 16px;
+  .theme-toggle-group {
+    display: flex;
+    background: #f3f4f6;
+    padding: 3px;
+    border-radius: 6px;
+    margin-bottom: 12px;
+  }
+
+  .theme-toggle-group button {
+    flex: 1;
     border: none;
     background: transparent;
-    color: var(--text-color);
-    text-align: left;
+    padding: 6px 0;
+    font-size: 0.72rem;
+    cursor: pointer;
+    border-radius: 4px;
+    color: #6b7280;
+  }
+
+  .theme-toggle-group button.active {
+    background: #ffffff;
+    font-weight: bold;
+    color: #111827;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  }
+
+  .dropdown-item {
+    padding: 10px 4px;
     font-size: 0.9rem;
     cursor: pointer;
-    border-bottom: 1px solid var(--border-color);
+    border-top: 1px solid #f3f4f6;
+    color: #1f2937;
   }
 
-  .dropdown-menu button:last-child {
-    border-bottom: none;
+  .dropdown-footer {
+    font-size: 0.75rem;
+    color: #9ca3af;
+    margin-top: 8px;
   }
 
-  /* 入力フォーム */
-  .form-group {
-    margin-bottom: 14px;
+  /* --- 写真通りの上部グリーンカード --- */
+  .header-card {
+    background: var(--header-bg);
+    border-radius: 24px;
+    padding: 24px 16px;
+    text-align: center;
+    color: white;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
   }
 
-  label.field-label {
-    display: block;
-    font-size: 0.85rem;
+  .header-icons {
+    font-size: 1.8rem;
+    line-height: 1.25;
+    margin-bottom: 12px;
+  }
+
+  .header-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  /* 説明文 */
+  .description-text {
+    font-size: 0.92rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
     font-weight: 600;
-    color: var(--sub-text);
+  }
+
+  /* --- フォーム枠 --- */
+  .form-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 14px;
+    padding: 18px;
+    margin-bottom: 20px;
+  }
+
+  .st-label {
+    font-size: 0.88rem;
     margin-bottom: 6px;
+    display: block;
+    font-weight: 600;
   }
 
   textarea {
     width: 100%;
-    height: 90px;
-    border-radius: 10px;
-    border: 1px solid var(--border-color);
-    background: var(--input-bg);
-    color: var(--text-color);
-    padding: 10px;
-    font-size: 0.95rem;
-    resize: vertical;
-  }
-
-  .size-row {
-    display: flex;
-    gap: 10px;
-  }
-
-  .size-row > div { flex: 1; }
-
-  input[type="number"] {
-    width: 100%;
-    padding: 8px 10px;
+    height: 95px;
     border-radius: 8px;
     border: 1px solid var(--border-color);
     background: var(--input-bg);
     color: var(--text-color);
-    font-size: 0.95rem;
+    padding: 10px;
+    font-size: 0.9rem;
+    resize: vertical;
+    outline: none;
+    margin-bottom: 16px;
   }
 
-  /* 新機能：画像/動画切り替え */
+  /* モード選択 (画像 / 動画) */
   .radio-group {
     display: flex;
     gap: 16px;
+    margin-bottom: 16px;
     background: var(--input-bg);
-    padding: 10px;
-    border-radius: 10px;
+    padding: 8px 12px;
+    border-radius: 8px;
     border: 1px solid var(--border-color);
-    justify-content: center;
   }
 
   .radio-group label {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     cursor: pointer;
     display: flex;
     align-items: center;
     gap: 6px;
+    font-weight: 500;
   }
 
-  /* 生成ボタン */
-  .submit-btn {
+  /* セレクトボックス (写真の幅・高さと同じ) */
+  select.st-select {
     width: 100%;
-    padding: 12px;
-    border: none;
-    border-radius: 10px;
-    background: var(--accent-btn);
-    color: white;
-    font-size: 1rem;
-    font-weight: bold;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background: var(--input-bg);
+    color: var(--text-color);
+    font-size: 0.9rem;
+    margin-bottom: 16px;
+    outline: none;
+    appearance: auto;
+  }
+
+  /* Streamlit風 グレーボタン */
+  .st-button {
+    padding: 8px 18px;
+    border: 1px solid var(--btn-border);
+    border-radius: 8px;
+    background: var(--btn-bg);
+    color: var(--btn-text);
+    font-size: 0.9rem;
+    font-weight: 500;
     cursor: pointer;
-    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);
-    margin-top: 6px;
+    transition: all 0.15s ease;
   }
 
-  .submit-btn:active {
-    opacity: 0.85;
+  .st-button:active {
+    background: #d1d5db;
+    transform: translateY(1px);
   }
 
-  /* 結果表示 */
+  /* 結果・履歴表示 */
   .result-area {
     margin-top: 16px;
     text-align: center;
@@ -213,152 +254,136 @@
     width: 100%;
     border-radius: 10px;
     display: none;
-    margin-top: 10px;
-    border: 1px solid var(--border-color);
+    margin-top: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
   }
 
   .loading {
     display: none;
-    color: #818cf8;
+    color: var(--header-bg);
     font-size: 0.9rem;
     padding: 12px;
+    font-weight: bold;
   }
 
-  /* 履歴ダイアログ */
-  .modal-overlay {
-    display: none;
-    position: fixed;
-    top:0; left:0; right:0; bottom:0;
-    background: rgba(0,0,0,0.7);
-    z-index: 2000000;
-    justify-content: center;
+  .history-section {
+    margin-top: 24px;
+  }
+
+  .history-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    display: flex;
     align-items: center;
-    padding: 16px;
-  }
-
-  .modal-box {
-    background: var(--card-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    padding: 18px;
-    width: 100%;
-    max-width: 380px;
-    max-height: 75vh;
-    overflow-y: auto;
+    gap: 8px;
+    margin-bottom: 12px;
   }
 </style>
 </head>
 <body>
 
-<div class="container">
-  <div class="header">
-    <div class="icon-banner">☁<br>🌲🏡🌲<br>🌱🌊🌱</div>
-    <div class="title">想像の夢の世界</div>
-    <button class="menu-btn" onclick="toggleMenu(event)" aria-label="メニュー">⋮</button>
-    
-    <div id="dropdownMenu" class="dropdown-menu">
-      <button onclick="doPrint()">🖨️ 印刷</button>
-      <button onclick="openHistory()">📜 生成履歴</button>
-      <button onclick="toggleTheme()">🌓 ダーク/ライト</button>
+<div class="main-container">
+  <!-- 右上 ⋮ ボタン -->
+  <button class="st-menu-btn" onclick="toggleMenu(event)" aria-label="メニュー">⋮</button>
+
+  <!-- ドロップダウンメニュー -->
+  <div id="stDropdown" class="st-dropdown">
+    <div class="theme-toggle-group">
+      <button id="btnSys" class="active" onclick="setTheme('sys')">🌗 システム</button>
+      <button id="btnLight" onclick="setTheme('light')">☀️ ライト</button>
+      <button id="btnDark" onclick="setTheme('dark')">🌙 暗い</button>
     </div>
+    <div class="dropdown-item" onclick="window.print()">🖨️ 印刷</div>
+    <div class="dropdown-footer">Streamlit v1.64.0 で作成</div>
   </div>
 
-  <div class="form-group">
-    <label class="field-label">プロンプト (日本語・英語どちらも可 / 自動翻訳)</label>
-    <textarea id="prompt" placeholder="例: 神秘的な森の中に建つ小さな家、美しいアニメ調"></textarea>
+  <!-- 上部グリーンヘッダーカード -->
+  <div class="header-card">
+    <div class="header-icons">☁<br>🌲🏡🌲<br>🌱🌊🌱</div>
+    <h1 class="header-title">🌱 想像の夢の世界</h1>
   </div>
 
-  <div class="form-group size-row">
-    <div>
-      <label class="field-label">幅 (Width)</label>
-      <input type="number" id="width" value="512" step="64">
-    </div>
-    <div>
-      <label class="field-label">高さ (Height)</label>
-      <input type="number" id="height" value="512" step="64">
-    </div>
+  <div class="description-text">
+    🌿 日本語でも好きな言語でも自由に入力してください。自動で英語に翻訳されて美しい画像が作成されます！
   </div>
 
-  <div class="form-group">
-    <label class="field-label">生成モード</label>
+  <!-- フォームカード -->
+  <div class="form-card">
+    <label class="st-label">プロンプト (何でも入力OK) :</label>
+    <textarea id="prompt" placeholder="例：新緑の森、明るい曇り空、静かな湖、奥に見える小さな家、ファンタジー"></textarea>
+
+    <label class="st-label">生成モード</label>
     <div class="radio-group">
-      <label><input type="radio" name="mediaType" value="image" checked> 〇 画像を作成</label>
-      <label><input type="radio" name="mediaType" value="video"> 〇 動画(GIF)を作成</label>
+      <label><input type="radio" name="mediaType" value="image" checked> 🖼️ 画像</label>
+      <label><input type="radio" name="mediaType" value="video"> 🎬 動画 (GIF)</label>
     </div>
+
+    <label class="st-label">幅</label>
+    <select id="width" class="st-select">
+      <option value="512">512</option>
+      <option value="768">768</option>
+      <option value="1024" selected>1024</option>
+    </select>
+
+    <label class="st-label">高さ</label>
+    <select id="height" class="st-select">
+      <option value="512">512</option>
+      <option value="768">768</option>
+      <option value="1024" selected>1024</option>
+    </select>
+
+    <button class="st-button" onclick="generateMedia()">画像を無料で生成する</button>
   </div>
 
-  <button class="submit-btn" onclick="generateMedia()">生成を開始する</button>
-
+  <!-- 生成エリア -->
   <div class="result-area">
     <div id="loading" class="loading">⏳ 翻訳およびAI生成を行っています...</div>
-    <img id="output-image" src="" alt="生成成果物">
+    <img id="output-image" src="" alt="生成画像">
   </div>
-</div>
 
-<div id="historyModal" class="modal-overlay" onclick="closeHistory()">
-  <div class="modal-box" onclick="event.stopPropagation()">
-    <h3 style="margin-top:0;">📜 生成履歴</h3>
-    <div id="historyList">履歴はありません</div>
-    <button onclick="closeHistory()" style="margin-top:14px; width:100%; padding:8px; border-radius:6px; border:none; background:var(--border-color); color:var(--text-color);">閉じる</button>
+  <!-- 生成履歴 -->
+  <div class="history-section">
+    <div class="history-title">📜 生成履歴</div>
+    <div id="historyList" style="font-size: 0.85rem; color: var(--sub-text);">履歴はまだありません</div>
   </div>
 </div>
 
 <script>
 let genHistory = [];
 
-// 「⋮」メニュー切り替え
+// メニュー表示切り替え
 function toggleMenu(e) {
-  if (e) {
-    e.stopPropagation();
-    e.preventDefault();
-  }
-  const menu = document.getElementById('dropdownMenu');
-  menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+  if (e) e.stopPropagation();
+  const dropdown = document.getElementById('stDropdown');
+  dropdown.style.display = (dropdown.style.display === 'block') ? 'none' : 'block';
 }
 
 document.addEventListener('click', (e) => {
-  const menu = document.getElementById('dropdownMenu');
-  if (menu && !e.target.classList.contains('menu-btn')) {
-    menu.style.display = 'none';
+  const dropdown = document.getElementById('stDropdown');
+  if (dropdown && !e.target.classList.contains('st-menu-btn')) {
+    dropdown.style.display = 'none';
   }
 });
 
-function toggleTheme() {
-  document.body.classList.toggle('light-mode');
-}
-
-function doPrint() {
-  window.print();
-}
-
-function openHistory() {
-  const list = document.getElementById('historyList');
-  if (genHistory.length === 0) {
-    list.innerHTML = '<p style="color:var(--sub-text);">履歴はまだありません。</p>';
-  } else {
-    list.innerHTML = genHistory.map(item => `
-      <div style="border-bottom:1px solid var(--border-color); padding:8px 0; font-size:0.85rem;">
-        <span style="color:#818cf8;">[${item.type}]</span> ${item.prompt}
-      </div>
-    `).join('');
+// テーマ切り替え
+function setTheme(mode) {
+  document.querySelectorAll('.theme-toggle-group button').forEach(b => b.classList.remove('active'));
+  if (mode === 'sys' || mode === 'light') {
+    document.getElementById(mode === 'sys' ? 'btnSys' : 'btnLight').classList.add('active');
+    document.body.classList.remove('dark-mode');
+  } else if (mode === 'dark') {
+    document.getElementById('btnDark').classList.add('active');
+    document.body.classList.add('dark-mode');
   }
-  document.getElementById('historyModal').style.display = 'flex';
 }
 
-function closeHistory() {
-  document.getElementById('historyModal').style.display = 'none';
-}
-
-// 自動翻訳 (MyMemory API)
+// 翻訳処理
 async function autoTranslate(text) {
   if (/^[a-zA-Z0-9\s,.-]+$/.test(text)) return text;
   try {
     const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=ja|en`);
     const data = await res.json();
-    if (data.responseData && data.responseData.translatedText) {
-      return data.responseData.translatedText;
-    }
-    return text;
+    return data.responseData?.translatedText || text;
   } catch (e) {
     return text;
   }
@@ -374,17 +399,11 @@ async function generateMedia() {
 
   const loading = document.getElementById('loading');
   const img = document.getElementById('output-image');
-  const width = document.getElementById('width').value || 512;
-  const height = document.getElementById('height').value || 512;
+  const width = document.getElementById('width').value;
+  const height = document.getElementById('height').value;
   const mediaType = document.querySelector('input[name="mediaType"]:checked').value;
 
   loading.style.display = 'block';
   img.style.display = 'none';
 
-  const enPrompt = await autoTranslate(rawPrompt);
-  const seed = Math.floor(Math.random() * 10000000);
-
-  let targetUrl = '';
-  if (mediaType === 'video') {
-    const p = encodeURIComponent(enPrompt + ', animated gif motion');
-    targetUrl = `https://image.pollinations.ai/prompt/${p}?width=${width}&height
+  const enProm
